@@ -6,4 +6,5 @@ Here's a storage of useful code I'm sharing at the request of friends and collea
 
 1. **graphviz_test:** a small experiment with graphviz and networkx for drawing graphs.
 2. **partial_dependence:** experiments with partial dependence packages on a synthetic dataset.
-3. **probability_calibration:** calibrating the probability of tree-based models with a stacked logistic regression
+3. **probability_calibration:** calibrating the probability of tree-based models with a stacked logistic regression.
+4. **bayesian_bootstrap:** implementing a smoother version of bootstrap, improving its performance for very small data.
