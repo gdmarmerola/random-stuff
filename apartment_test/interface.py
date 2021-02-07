@@ -235,9 +235,9 @@ def display_final_results_section():
         *Resultado = * \n
         **(+)** * Patrimônio líquido * \n
         **(+)** * Total economizado em aluguel * \n 
-        **(+)** * Renda passiva acumulada do reinvestimento da diferença entre parcelas e aluguel * \n 
+        **(+)** * Renda passiva potencial do reinvestimento da diferença entre parcelas e aluguel * \n 
         **(-)** * Total pago no imóvel (entrada + financiamento) * \n
-        **(-)** * Renda passiva acumulada do investimento da entrada e FGTS se não tivessem sido usados na compra do imóvel* \n
+        **(-)** * Renda passiva potencial do investimento da entrada e FGTS se não tivessem sido usados na compra do imóvel* \n
         Lembrando que resultados positivos indicam que comprar é mais vantajoso que alugar.  
         """
     )
