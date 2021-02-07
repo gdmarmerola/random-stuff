@@ -227,7 +227,7 @@ def plot_rent_installment_diff_reinvest(diff):
         width=750,
         height=400,
         font=dict(size=14, family="Roboto, monospace"),
-        title='Renda passiva potencial acumulada do reinvestimento da diferença<br>entre aluguel e parcelas',
+        title='Renda passiva potencial acumulada do reinvestimento<br>da diferença entre aluguel e parcelas',
         margin=dict(l=20, r=20, t=80, b=20),
         showlegend=False
     )
