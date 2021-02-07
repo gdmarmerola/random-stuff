@@ -214,28 +214,17 @@ def display_rent_section():
 
     return rent_amount, rent_appreciation
 
-def display_rent_reinvestment_option(cash_flow, rent_over_time, invest_interest):
+def display_rent_reinvestment_option():
 
-    is_rent_reinvestment = st.checkbox('Deseja simular o reinvestimento da diferença entre parcelas e aluguel? (usando mesma taxa de rendimento da seção (2))', True)
+    is_rent_reinvestment = st.checkbox(
+        """
+        Deseja simular o reinvestimento da diferença entre parcelas e aluguel?
+        (usando mesma taxa de rendimento da seção (2))
+        """,
+        True
+    )
 
-    if is_rent_reinvestment:
-
-        diff = rent_over_time - cash_flow['mort_installment']
-
-        positive_diff = diff.clip(0, None)
-        negative_diff = diff.clip(None, 0)
-
-        positive_diff_interest = apply_interest_series(positive_diff, invest_interest) - positive_diff.cumsum()
-        negative_diff_interest = apply_interest_series(negative_diff, invest_interest) - negative_diff.cumsum()
-        
-        diff_interest = (positive_diff_interest + negative_diff_interest).round(0)
-        rent_over_time = rent_over_time.cumsum() + diff_interest
-
-    else:
-        rent_over_time = rent_over_time.cumsum()
-        diff_interest = None
-
-    return rent_over_time, diff_interest, is_rent_reinvestment
+    return is_rent_reinvestment
 
 def display_final_results_section():
 
@@ -253,7 +242,7 @@ def display_final_results_section():
         """
     )
     
-    use_inflation = st.checkbox("corrigir pela inflação?")
+    use_inflation = st.checkbox("corrigir pela inflação?", True)
 
     return use_inflation
 
@@ -267,7 +256,7 @@ def display_conclusion(total):
         Depois de **{(len(total) - 1)/12:.1f}** anos, 
         a decisão de comprar um imóvel (ao invés de alugar) acarretará 
         {words_mapping[sign_total]}
-        de **{total.iloc[-1]/1e3:.0f} mil reais**.
+        de **{np.abs(total.iloc[-1])/1e3:.0f} mil reais**.
         """
     )
 

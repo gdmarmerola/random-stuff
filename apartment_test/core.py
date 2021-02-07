@@ -120,3 +120,22 @@ def apply_inflation(series, inflation):
         
     inflation_series = apply_interest_scalar(1, inflation, series.shape[0], 'inflation_series')
     return series / inflation_series
+
+def calculate_rent_reinvestment(rent_over_time, installments_over_time, interest):
+    
+    """
+    Calculate passive income (opportunity cost) by reinvesting rent or installment surplus. 
+    """
+
+    diff = rent_over_time - installments_over_time
+
+    rent_surplus = diff.clip(0, None)
+    installment_surplus = diff.clip(None, 0)
+
+    rent_passive_income = apply_interest_series(rent_surplus, interest) - rent_surplus.cumsum()
+    installment_passive_income = apply_interest_series(installment_surplus, interest) - installment_surplus.cumsum()
+    
+    final_passive_income = (rent_passive_income + installment_passive_income).round(0)
+
+    return final_passive_income
+        

@@ -266,7 +266,7 @@ def plot_total(total):
         width=750,
         height=300,
         font=dict(size=14, family="Roboto, monospace"),
-        title='Fluxo de caixa final acumulado segundo a simulação',
+        title='Resultado final acumulado segundo a simulação',
         margin=dict(l=20, r=20, t=40, b=20),
         showlegend=False
     )

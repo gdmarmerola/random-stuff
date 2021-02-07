@@ -10,7 +10,8 @@ from core import (
     calculate_mortgage_over_time,
     apply_interest_scalar,
     apply_interest_series,
-    apply_inflation
+    apply_inflation,
+    calculate_rent_reinvestment
 )
 
 from viz import (
@@ -89,6 +90,7 @@ cash_flow = (
     .assign(estate = lambda x: x.home_value - x.mort_balance)
 )
 
+# show installments?
 if st.checkbox('Mostrar valor das parcelas?'):
     plot_installment(cash_flow)
 
@@ -117,14 +119,14 @@ fgts_amort_interest = (
     cash_flow['mort_fgts_paid'].cumsum()
 )
 
-downpay_and_amort_interest = (
+downpay_and_amort_passive_income = (
     downpay_interest +
     downpay_fgts_interest +
     fgts_amort_interest - 
     downpay_amount
 )
 
-plot_interest_downpay_fgts(downpay_and_amort_interest)
+plot_interest_downpay_fgts(downpay_and_amort_passive_income)
 
 # rent section #
 rent_amount, rent_appreciation = display_rent_section()
@@ -139,18 +141,28 @@ rent_over_time = apply_interest_scalar(
  
 plot_rent_economy(rent_over_time)
 
-rent_over_time, diff_interest, is_reinvestment = display_rent_reinvestment_option(cash_flow, rent_over_time, invest_interest)
+is_reinvestment = display_rent_reinvestment_option()
 
 if is_reinvestment:
-    plot_rent_installment_diff_reinvest(diff_interest)
+    rent_reinvestment_passive_income = calculate_rent_reinvestment(
+        rent_over_time,
+        cash_flow['mort_installment'],
+        invest_interest
+    )
+    
+    plot_rent_installment_diff_reinvest(rent_reinvestment_passive_income)
+
+else:
+    rent_reinvestment_passive_income = 0
 
 # final results section #
 
 # making final calculations
 total = (
-    rent_over_time +
+    rent_over_time.cumsum() +
+    rent_reinvestment_passive_income +
     cash_flow['estate'] -
-    downpay_and_amort_interest -
+    downpay_and_amort_passive_income -
     cash_flow['mort_fgts_paid'].cumsum() -
     cash_flow['downpayment'].cumsum() -
     cash_flow['mort_installment'].cumsum()
