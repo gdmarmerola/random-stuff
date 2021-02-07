@@ -31,6 +31,20 @@ def display_basic_info_section():
         format='%0f'    
     )
 
+    if st.checkbox('Vai usar o FGTS na entrada?'):
+
+        downpay_fgts_amount = st.number_input(
+            'Qual será o valor a ser amortizado via FGTS na entrada? (R$)',
+            0.,
+            downpay_amount,
+            0.,
+            1e3,
+            format='%0f'
+        )
+
+    else:
+        downpay_fgts_amount = 0.  
+
     home_appreciation = st.slider(
         'Quanto você espera que o imóvel valorize por ano? (%)',
         -10.0,
@@ -55,7 +69,7 @@ def display_basic_info_section():
         1,
     ) * 12
 
-    return total_amount, downpay_amount, home_appreciation, inflation, time_horizon
+    return total_amount, downpay_amount, downpay_fgts_amount, home_appreciation, inflation, time_horizon
 
 def display_tutorial_section():
 
@@ -104,20 +118,6 @@ def display_mortage_section_basic_info(total_amount, downpay_amount):
 
 def display_mortage_section_fgts_info(downpay_amount, mortgage_value):
 
-    if st.checkbox('Vai usar o FGTS na entrada?'):
-
-        downpay_fgts_amount = st.number_input(
-            'Qual será o valor a ser amortizado via FGTS na entrada? (R$)',
-            0.,
-            downpay_amount,
-            0.,
-            1e3,
-            format='%0f'
-        )
-
-    else:
-        downpay_fgts_amount = 0.  
-
     if st.checkbox('Vai usar o FGTS para amortizar o saldo devedor?'):
 
         fgts_frequency = st.slider(
@@ -141,7 +141,7 @@ def display_mortage_section_fgts_info(downpay_amount, mortgage_value):
         fgts_amount = 0
         fgts_frequency = 2
 
-    return downpay_fgts_amount, fgts_amount, fgts_frequency
+    return fgts_amount, fgts_frequency
 
 def display_investments_section():
 

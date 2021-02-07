@@ -46,7 +46,7 @@ FGTS_INTEREST = 3./100
 display_header()
 
 # basic info section #
-total_amount, downpay_amount, home_appreciation, inflation, time_horizon = display_basic_info_section()
+total_amount, downpay_amount, downpay_fgts_amount, home_appreciation, inflation, time_horizon = display_basic_info_section()
 
 # how to use the tool section #
 display_tutorial_section()
@@ -54,7 +54,7 @@ plot_example()
 
 # mortgage section #
 mortgage_value, n_months, mort_interest = display_mortage_section_basic_info(total_amount, downpay_amount)
-downpay_fgts_amount, fgts_amount, fgts_frequency = display_mortage_section_fgts_info(downpay_amount, mortgage_value)
+fgts_amount, fgts_frequency = display_mortage_section_fgts_info(downpay_amount, mortgage_value)
 
 # calculating mortgage cash flow
 mortgage_df = calculate_mortgage_over_time(
