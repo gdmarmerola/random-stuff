@@ -134,7 +134,7 @@ def plot_interest_downpay_fgts(downpay_and_amort):
         width=750,
         height=400,
         font=dict(size=14, family="Roboto, monospace"),
-        title='Renda passiva acumulada da entrada e FGTS se não tivessem<br>sido usados na compra do imóvel',
+        title='Renda passiva potencial da entrada e FGTS se não tivessem<br>sido usados na compra do imóvel',
         margin=dict(l=20, r=20, t=80, b=20)
     )
 
@@ -227,7 +227,7 @@ def plot_rent_installment_diff_reinvest(diff):
         width=750,
         height=400,
         font=dict(size=14, family="Roboto, monospace"),
-        title='Renda passiva acumulada do reinvestimento da diferença<br>entre aluguel e parcelas',
+        title='Renda passiva potencial do reinvestimento da diferença<br>entre aluguel e parcelas',
         margin=dict(l=20, r=20, t=80, b=20),
         showlegend=False
     )
