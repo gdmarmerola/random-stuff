@@ -164,7 +164,7 @@ def display_investments_section():
     }
 
     invest_type = st.selectbox(
-        'Onde você investiria os recursos próprios da entrada (sem FGTS) se não usasse para comprar o imóvel?',
+        'Onde você investiria os recursos próprios da entrada (sem FGTS) se não os utilizasse para comprar o imóvel?',
         list(invest_options.keys()),
         index = 2
     )
