@@ -4,16 +4,7 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-
-from core import (
-    calculate_monthly_interest,
-    calculate_sac_table,
-    apply_appreciation,
-    Liquidity,
-    run_npv,
-    run_inflation,
-    run_interest
-)
+from core import apply_interest_scalar
 
 def range_min(x):
     return x * (1 - np.sign(x) * 0.3)
@@ -39,7 +30,14 @@ def plot_example():
         row=1, col=2
     )
 
-    fig.update_layout(height=300, width=750, showlegend=False, font={'family':"Roboto, monospace"}, margin=dict(l=20, r=20, t=40, b=20))
+    fig.update_layout(
+        height=300,
+        width=750,
+        showlegend=False,
+        font={'family':"Roboto, monospace"},
+        margin=dict(l=20, r=20, t=40, b=20)
+    )
+
     fig.update_yaxes(range=[-1.5, 1.5])
     st.write(fig)
 
@@ -73,7 +71,7 @@ def plot_installment(cash_flow):
 
 def plot_total_amount_mortgage(cash_flow):
     
-    total_amount_mortgage = -(cash_flow['mort_installment'] + cash_flow['mort_add_pay'] + cash_flow['downpayment']).cumsum()
+    total_amount_mortgage = -(cash_flow['mort_installment'] + cash_flow['mort_fgts_paid'] + cash_flow['downpayment']).cumsum()
 
     fig = go.Figure()
 
@@ -103,7 +101,7 @@ def plot_home_value(cash_flow):
     
     fig = go.Figure()
 
-    estate = cash_flow['buy_estate']
+    estate = cash_flow['estate']
 
     fig.update_layout(
         legend=dict(orientation="h"),
@@ -270,46 +268,6 @@ def plot_total(total):
         font=dict(size=14, family="Roboto, monospace"),
         title='Fluxo de caixa final acumulado segundo a simulação',
         margin=dict(l=20, r=20, t=40, b=20),
-        showlegend=False
-    )
-
-    fig.add_trace(
-        go.Scatter(
-            x=total.index,
-            y=positive_totals,
-            fill='tozeroy',
-            line_color='green'
-        )
-    )
-
-    fig.add_trace(
-        go.Scatter(
-            x=total.index,
-            y=negative_totals,
-            fill='tozeroy',
-            line_color='red'
-        )
-    )
-
-    fig.update_yaxes(range=[range_min(total.min()), range_max(total.max())])
-    fig.update_xaxes(title="Meses após compra")
-    st.write(fig)
-
-def plot_total_inflation(total, inflation):
-
-    total = run_inflation(total, inflation)
-
-    positive_totals = pd.Series(np.clip(total, 0, None)).replace(0, np.nan)
-    negative_totals = pd.Series(np.clip(total, None, 0)).replace(0, np.nan)
-
-    fig = go.Figure()
-
-    fig.update_layout(
-        width=750,
-        height=400,
-        font=dict(size=14, family="Roboto, monospace"),
-        title='Fluxo de caixa final acumulado segundo a simulação<br>(corrigido pela inflação)',
-        margin=dict(l=20, r=20, t=80, b=20),
         showlegend=False
     )
 
